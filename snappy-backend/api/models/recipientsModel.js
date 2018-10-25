@@ -2,8 +2,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const NOTES_MAX_LENGTH = 500;
+const PHONE_MAX_LENGTH = 10;
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/;
-const PHONE_NUMBER_REGEX = /^[+]?(1\-|1\s|1|\d{3}\-|\d{3}\s|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/;
 
 var RecipientSchema = new Schema({
   firstName: {
@@ -37,12 +37,12 @@ var RecipientSchema = new Schema({
     required: 'Kindly enter the email'
   },
   phone: {
-    type: String,
+    type: Number,
     validate: {
       validator: function(v) {
-        return PHONE_NUMBER_REGEX.test(v);
+        return v.toString().length < PHONE_MAX_LENGTH;
       },
-      message: props => `${props.value} is not a valid phone number!`
+      message: () => 'Too long phone (maximum is 10 digits)!'
     },
     required: 'Kindly enter the phone number'
   },
@@ -50,9 +50,9 @@ var RecipientSchema = new Schema({
     type: String,
     validate: {
       validator: function(v) {
-        return v.length > NOTES_MAX_LENGTH;
+        return v.length < NOTES_MAX_LENGTH;
       },
-      message: () => `Too long notes!`
+      message: () => 'Too long notes!'
     },
   }
 });

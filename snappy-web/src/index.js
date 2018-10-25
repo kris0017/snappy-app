@@ -1,3 +1,4 @@
+// I didn't use redux in such a small app :)
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
