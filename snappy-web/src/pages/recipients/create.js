@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { NOTES_MAX_LENGTH, PHONE_MAX_LENGTH } from '../../utils/const';
 import { getRestictedNumberString } from '../../utils/func';
-import { createRecipient } from '../../core/dataProvider';
+import { createRecipient, validateAddress } from '../../core/dataProvider';
 import AppSnackBar from '../../components/AppSnackBar';
 
 const styles = theme => ({
@@ -69,6 +69,10 @@ class CreateRecipient extends PureComponent {
 	
 	handleSubmit = () => {
 		this.setState({ submitted: true }, () => {
+			validateAddress(this.state.recipient).then((response) => {
+				// if success => save recipient. But I had problems with CORS :(
+				console.log(response)
+			})
 			createRecipient(this.state.recipient).then((result) => {
 				if (result.data.errors) {
 					this.setState({ errors: result.data.errors, submitted: false })
