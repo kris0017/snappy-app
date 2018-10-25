@@ -6,6 +6,7 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { NOTES_MAX_LENGTH, PHONE_MAX_LENGTH } from '../../utils/const';
 import { getRestictedNumberString } from '../../utils/func';
 import { createRecipient } from '../../core/dataProvider';
+import AppSnackBar from '../../components/AppSnackBar';
 
 const styles = theme => ({
   textField: {
@@ -36,6 +37,7 @@ class CreateRecipient extends PureComponent {
 			},
 			submitted: false,
 			errors: {},
+			openNotification: false,
 		};
 	}
 
@@ -68,14 +70,20 @@ class CreateRecipient extends PureComponent {
 	handleSubmit = () => {
 		this.setState({ submitted: true }, () => {
 			createRecipient(this.state.recipient).then((result) => {
-				console.log(result);
+				if (result.data.errors) {
+					this.setState({ errors: result.data.errors})
+				} else {
+					this.clear();
+					this.setState({ openNotification: true}, () => {
+						setTimeout(() => this.setState({ openNotification: false }), 10000);
+					})
+				}
 			})
-			setTimeout(() => this.setState({ submitted: false }), 5000);
 		});
 	}
 
 	render() {
-		const { recipient, submitted, errors } = this.state;
+		const { recipient, submitted, errors, openNotification } = this.state;
 		const { classes } = this.props;
 
 		return (
@@ -205,6 +213,12 @@ class CreateRecipient extends PureComponent {
 						</Button>
 					</Grid>
 				</Grid>
+				<AppSnackBar
+					open={openNotification}
+					variant="success"
+					message="Recipient was successfully created"
+					onClose={() => this.setState({ openNotification: false })}
+				/>
 			</ValidatorForm>
 		);
 	}
