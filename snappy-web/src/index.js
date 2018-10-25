@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Index from  './pages/index';
+import Tabs from  './pages/tabs';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<Index />, document.getElementById('root'));
+ReactDOM.render(<Tabs />, document.getElementById('root'));
 
 serviceWorker.register();
