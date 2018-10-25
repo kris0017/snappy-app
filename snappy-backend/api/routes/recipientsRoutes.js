@@ -8,6 +8,6 @@ module.exports = function(app) {
     .post(recipients.createRecipient);
 
   app.route('/recipients/:recipientId')
-    .delete(todoList.deleteRecipient);
+    .delete(recipients.deleteRecipient);
 };
 
