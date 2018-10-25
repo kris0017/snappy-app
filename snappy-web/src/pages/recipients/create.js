@@ -71,7 +71,7 @@ class CreateRecipient extends PureComponent {
 		this.setState({ submitted: true }, () => {
 			createRecipient(this.state.recipient).then((result) => {
 				if (result.data.errors) {
-					this.setState({ errors: result.data.errors})
+					this.setState({ errors: result.data.errors, submitted: false })
 				} else {
 					this.clear();
 					this.setState({ openNotification: true}, () => {
@@ -216,7 +216,7 @@ class CreateRecipient extends PureComponent {
 				<AppSnackBar
 					open={openNotification}
 					variant="success"
-					message="Recipient was successfully created"
+					message="Recipient was successfully created!"
 					onClose={() => this.setState({ openNotification: false })}
 				/>
 			</ValidatorForm>

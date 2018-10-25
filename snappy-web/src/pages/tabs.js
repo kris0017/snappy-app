@@ -29,11 +29,22 @@ const styles = theme => ({
 });
 
 class FullWidthTabs extends React.Component {
-  state = {
-    value: 0,
-  };
+
+  constructor(props) {
+    super(props);
+    this.listTab = React.createRef();
+		this.state = {
+      value: 0,
+    };
+	}
 
   handleChange = (event, value) => {
+    if (value === 1) {
+      console.log(this)
+      console.log(this.listTab.current)
+      console.log(this.listTab.current.test)
+      this.listTab.current.getResipients();
+    }
     this.setState({ value });
   };
 
@@ -67,7 +78,7 @@ class FullWidthTabs extends React.Component {
             <CreateRecipient/>
           </TabContainer>
           <TabContainer dir={theme.direction}>
-            <RecipientsList/>
+            <RecipientsList ref={this.listTab}/>
           </TabContainer>
         </SwipeableViews>
       </div>

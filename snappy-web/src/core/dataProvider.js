@@ -11,3 +11,7 @@ export function getRecipientsList() {
   return axios.get(RECIPIENTS_URL);
 }
 
+export function deleteRecippient(id) {
+  return axios.delete(`${RECIPIENTS_URL}/${id}`);
+}
+
